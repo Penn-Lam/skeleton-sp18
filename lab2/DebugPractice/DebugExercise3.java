@@ -10,8 +10,11 @@ public class DebugExercise3 {
             double cost = in.readDouble();
             int numAvailable = in.readInt();
             if (foodType.equals("turnip")) {
-                int newTotal = totalTurnips + numAvailable;
-                totalTurnips = newTotal;
+               if (numAvailable < 0) {
+                System.out.println("发现异常数据，数量为负数：" + numAvailable);
+            } else {
+                totalTurnips += numAvailable;
+               }
             }
             in.readLine();
         }
