@@ -3,13 +3,12 @@ import java.math.*;
 /**
  *  Tests Planet's update() method
  */
-public class TestUpdate {
-
+public class TestPlanet {
     /**
-     *  Tests update.
+     *  Tests Planet.
      */
     public static void main(String[] args) {
-        checkUpdate();
+        checkPlanet();
     }
 
     /**
@@ -28,21 +27,32 @@ public class TestUpdate {
         }
     }
 
+    /**
+     *  Rounds a double to a specified number of decimal places.
+     *
+     *  @param  value       The double value to round
+     *  @param  places      The number of decimal places to round to
+     *  @return             The rounded double value
+     */
+    private static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
+    }
 
     /**
      *  Checks the Planet class to make sure update works.
      */
-    private static void checkUpdate() {
+    private static void checkPlanet() {
         System.out.println("Checking update...");
 
         Planet p1 = new Planet(1.0, 1.0, 3.0, 4.0, 5.0, "jupiter.gif");
+        Planet p2 = new Planet(2.0, 1.0, 3.0, 4.0, 4e11, "jupiter.gif");
 
-        p1.update(2.0, 1.0, -0.5);
-
-
-        checkEquals(3.4, p1.xxVel, "xxVel update()", 0.01);
-        checkEquals(3.8, p1.yyVel, "yyVel update()", 0.01);
-        checkEquals(7.8, p1.xxPos, "xxPos update()", 0.01);
-        checkEquals(8.6, p1.yyPos, "yyPos update()", 0.01);
+        checkEquals(133.4, round(p1.calcNetForceExertedByX(new Planet[]{p2}), 2), "calcNetForceExertedByX", 0.01);
+        checkEquals(0.0, round(p1.calcNetForceExertedByY(new Planet[]{p2}), 2), "calcNetForceExertedByY", 0.01);
     }
 }
