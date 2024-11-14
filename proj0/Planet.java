@@ -1,10 +1,10 @@
 public class Planet {
-    double xxPos;
-    double yyPos;
-    double xxVel;
-    double yyVel;
-    double mass;
-    String imgFileName;
+    private double xxPos;
+    private double yyPos;
+    private double xxVel;
+    private double yyVel;
+    private double mass;
+    private String imgFileName;
     public static final double G = 6.67e-11;
 
     public Planet(double xP, double yP, double xV, double yV, double m, String img) {
@@ -68,7 +68,7 @@ public class Planet {
         return netForce;
     }
 
-    void update(double dt, double fX, double fY) {
+    public void update(double dt, double fX, double fY) {
         double ax = fX / this.mass;
         double ay = fY / this.mass;
         this.xxVel += ax * dt;
@@ -77,11 +77,58 @@ public class Planet {
         this.yyPos += yyVel * dt;
     }
 
-    void draw() {
+    public void draw() {
         String imagePath = "images/" + this.imgFileName;
         double scaledX = xxPos;
         double scaledY = yyPos;
         StdDraw.picture(scaledX, scaledY, imagePath);
     }
 
+    public double getXxPos() {
+        return xxPos;
+    }
+
+    public void setXxPos(double xxPos) {
+        this.xxPos = xxPos;
+    }
+
+    public double getYyPos() {
+        return yyPos;
+    }
+
+    public void setYyPos(double yyPos) {
+        this.yyPos = yyPos;
+    }
+
+    public double getXxVel() {
+        return xxVel;
+    }
+
+    public void setXxVel(double xxVel) {
+        this.xxVel = xxVel;
+    }
+
+    public double getYyVel() {
+        return yyVel;
+    }
+
+    public void setYyVel(double yyVel) {
+        this.yyVel = yyVel;
+    }
+
+    public double getMass() {
+        return mass;
+    }
+
+    public void setMass(double mass) {
+        this.mass = mass;
+    }
+
+    public String getImgFileName() {
+        return imgFileName;
+    }
+
+    public void setImgFileName(String imgFileName) {
+        this.imgFileName = imgFileName;
+    }
 }
