@@ -24,6 +24,9 @@ public class AList {
 
     /** Inserts X into the back of the list. */
     public void addLast(int x) {
+        if (size == items.length){
+            resize(size * 2);
+        }
         items[size] = x;
         size = size + 1;
     }
@@ -48,5 +51,11 @@ public class AList {
         int x = getLast();
         size = size - 1;
         return x;
+    }
+    private void resize(int capacity) {
+        int a [] = new int [capacity];
+        // arraycopy(原数组, 原数组起始位置, 目标数组, 目标数组起始位置, 要复制的元素数量)
+        System.arraycopy(items, 0, a, 0, size);
+        items = a;
     }
 }
