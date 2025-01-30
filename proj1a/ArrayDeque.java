@@ -12,7 +12,7 @@ public class ArrayDeque<T>{
         tail = 0;
     }
 
-    public int size() {
+    private int size() {
         return size;
     }
 
