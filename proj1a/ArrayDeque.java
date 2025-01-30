@@ -6,7 +6,7 @@ public class ArrayDeque<T> {
     private static final int RFACTOR = 8;
 
     public ArrayDeque() {
-        items = (T[]) new Object[RFACTOR];
+        items = (T[]) new Object[8];
         size = 0;
         head = 0;
         tail = 0;
@@ -21,53 +21,81 @@ public class ArrayDeque<T> {
     }
 
     public void addFirst(T item) {
-        if (size == items.length * 4) {
-            resize(size);
+        if (size == items.length) {
+            resize(items.length * 2);
         }
-        head = (head - 1 + items.length) % items.length;
+        if (!isEmpty()) {
+            head = (head - 1 + items.length) % items.length;
+        }
         items[head] = item;
+        if (size == 0) {
+            tail = head;
+        }
         size++;
     }
 
     public void addLast(T item) {
         if (size == items.length) {
-            resize(items.length * 4);
+            resize(items.length * 2);
         }
-        tail = (tail + 1 + items.length) % items.length;
         items[tail] = item;
         size++;
+        if (size == 1) {
+            head = tail = 0;
+        } else {
+            tail = (tail + 1) % items.length;
+        }
     }
 
     private void resize(int newsize) {
         T[] a = (T[]) new Object[newsize];
-
-        for (int i = 0; i < size; i++) {
-            a[i] = items[(i + head) % items.length];
+        if (size > 0) {
+            if (head <= tail) {
+                System.arraycopy(items, head, a, 0, size);
+            } else {
+                System.arraycopy(items, head, a, 0, items.length - head);
+                System.arraycopy(items, 0, a, items.length - head, tail + 1);
+            }
         }
-
         items = a;
         head = 0;
-        tail = size;
+        tail = Math.max(0, size - 1);
     }
 
     public T removeFirst() {
         if (isEmpty()) {
             return null;
-        } else {
-            T item = items[head];
-            items[head] = null;
-            return item;
         }
+        T item = items[head];
+        items[head] = null;
+        size--;
+        if (size == 0) {
+            head = tail = 0;
+        } else {
+            head = (head + 1) % items.length;
+        }
+        if (items.length >= 16 && size < items.length / 4) {
+            resize(items.length / 2);
+        }
+        return item;
     }
 
     public T removeLast() {
         if (isEmpty()) {
             return null;
-        } else {
-            T item = items[tail];
-            items[tail] = null;
-            return item;
         }
+        T item = items[tail];
+        items[tail] = null;
+        size--;
+        if (size == 0) {
+            head = tail = 0;
+        } else {
+            tail = (tail - 1 + items.length) % items.length;
+        }
+        if (items.length >= 16 && size < items.length / 4) {
+            resize(items.length / 2);
+        }
+        return item;
     }
 
     public void printDeque() {
