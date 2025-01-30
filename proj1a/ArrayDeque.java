@@ -12,7 +12,7 @@ public class ArrayDeque<T> {
         tail = 0;
     }
 
-    private int size() {
+    public int size() {
         return size;
     }
 
@@ -38,7 +38,7 @@ public class ArrayDeque<T> {
         size++;
     }
 
-    public void resize(int newsize) {
+    private void resize(int newsize) {
         T[] a = (T[]) new Object[newsize];
 
         for (int i = 0; i < size; i++) {
